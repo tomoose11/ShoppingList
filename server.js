@@ -26,12 +26,12 @@ mongoClient.connect("mongodb://dance:123456a@ds131721.mlab.com:31721/mydat2",(er
 console.log("hi");
 
 //if(process.env.NODE_ENV === "production") {
-    app.use(express.static("build"));
+   // app.use(express.static("build"));
 //}
 
-app.get("/",(req,res)=>{
-    res.sendFile(path.resolve(__dirname,"build","index.html"));
-});
+//app.get("/",(req,res)=>{
+    //res.sendFile(path.resolve(__dirname,"build","index.html"));
+//});
 
 app.get("/get",(req,res)=>{
     db.listCollections().toArray(function(err, collections){

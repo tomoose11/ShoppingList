@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
+import {Route} from 'react-router-dom';
+import {withRouter} from 'react-router-dom';
 
 var arr3 = [];
 
@@ -10,14 +12,14 @@ class MyList extends React.Component {
         this.state = {
             item: [],
             stuff: [],
-            ind: 0
+            ind: 0,
+            val:false
         };
         this.del = this.del.bind(this);
     }
 
     componentDidMount() {
         this.fet();
-        
         
     }
 
@@ -68,7 +70,7 @@ class MyList extends React.Component {
     }
 
 clickUpdate() {
-
+        
         //fetch("/newList/list")
         //.then(d=>d.json())
         //.then((da)=>{
@@ -92,12 +94,13 @@ clickUpdate() {
                // data: arr
             //});
         //});
-        this.fet();
+        //alert("2EEE");
+        //this.fet();
     }
 
     del(e) {
         var kk = Object.keys(e)[0];
-        alert("Are you sure you want to delete this item?");
+        if(window.confirm("Are you sure you want to delete this item?")) {
 
         setTimeout(()=>{
             fetch('/newList/delete/'+e+"&"+this.props.match.params.id)
@@ -107,8 +110,17 @@ clickUpdate() {
             this.fet();
         });
 
-        },100);
+        },10);
         
+        }
+        
+    }
+
+    onSub(e) {
+        if(document.getElementById("inp").value.length < 1) {
+            alert("The text box is blank!! Please Enter some text");
+            e.preventDefault();
+        }
         
         
     }
@@ -121,10 +133,11 @@ clickUpdate() {
                 <div id="ListTitle">Please enter some items</div>
                 
                 <div id="wrap">
-                    <form method="post" action={"/newList/"+this.props.match.params.id} onsubmit="return false">
+                    <form method="post" action={"/newList/"+this.props.match.params.id} onSubmit={this.onSub}>
                 
                         <input id="inp" type="text" placeholder="item" name="item"/>
-                        <button id="listBut" type="submit" onclick={()=>this.clickUpdate()}>save</button>
+                        <button id="listBut" type="submit" >save</button>
+                        
                         
                     </form>
                 </div>

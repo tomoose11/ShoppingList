@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
-import {Route} from 'react-router-dom';
+import {Route,Redirect} from 'react-router-dom';
 import {Link} from 'react-router-dom';
 import NewList from './NewList.js';
 import Home from './Home.js';
@@ -29,11 +29,11 @@ class App extends Component {
       <div id="cont">
             <div></div>
             <div id="navBar">
-                <div id="title">Shopping Timeline</div>
+                <div id="title">Shopping List</div>
             </div>
             <div id="navBar2">
                 <div className="navBut">Favorites</div>
-                <Link to="/other"><div className="navBut">Other</div> </Link> 
+                <Link to="/other"><div className="navBut">About</div> </Link> 
                 <Link to="/NewList"><div className="navBut">New Lists</div> </Link>
                 <Link to="/"><div className="navBut">Home</div> </Link>     
             </div>

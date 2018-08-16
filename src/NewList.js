@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Link} from 'react-router-dom';
+import {Route,Redirect} from 'react-router-dom';
+
 
 var arr3 = [];
 
@@ -10,7 +12,8 @@ class NewList extends React.Component {
         this.state = {
             item: [],
             stuff: [],
-            title: ""
+            title: "",
+            redir: false
         };
         this.del = this.del.bind(this);
     }
@@ -18,18 +21,27 @@ class NewList extends React.Component {
     componentDidMount() {
         var title = prompt("Enter Title of List");
         //alert(title);
-        this.setState({
-            title:title
-        });
-        this.fet();
         
+        if(title == "") {
+            alert("The text box is blank!! \nPlease try again");
+            this.componentDidMount();
+        }
+        if(title != "") {
+            this.setState({
+                title:title
+            });
+        }
+        if(title == null) {
+        //this.fet();
+        this.setState({redir:true});
+        }
     }
 
     fet() {
         fetch("/newList/list/"+this.state.title)
         .then(d=>d.json())
         .then((da)=>{
-            
+            alert("ooo");
             var p = da.map((item,a)=>
         <div onClick={()=>this.del(item._id)}>{item._id}</div>);
 
@@ -51,7 +63,7 @@ class NewList extends React.Component {
     }
 
 clickUpdate() {
-
+        
         //fetch("/newList/list")
         //.then(d=>d.json())
         //.then((da)=>{
@@ -80,7 +92,7 @@ clickUpdate() {
 
     del(e) {
         var kk = Object.keys(e)[0];
-        alert("Are you sure you want to delete this item?");
+        window.confirm("Are you sure you want to delete this item?");
         fetch('/newList/delete/'+e)
         .then(d=>d.json())
         .then((da)=>{
@@ -90,15 +102,24 @@ clickUpdate() {
         
     }
 
-    render() {
+    onSub(e) {
+        if(document.getElementById("inp").value.length < 1) {
+            alert("The text box is blank!! Please Enter some text");
+            e.preventDefault();
+        }
+    }
 
+    render() {
+            if(this.state.redir == true) {
+                return <Redirect to='/' />;
+            }
         return (
             <div>
                 <div id="LisTitle">{this.state.title}</div>
                 <div id="ListTitle">Please enter some items</div>
                 
                 <div id="wrap">
-                    <form method="post" action={"/newList/"+this.state.title} onsubmit="return false">
+                    <form method="post" action={"/newList/"+this.state.title} onSubmit={this.onSub}>
                 
                         <input id="inp" type="text" placeholder="item" name="item"/>
                         <button id="listBut" type="submit" onclick={()=>this.clickUpdate()}>save</button>

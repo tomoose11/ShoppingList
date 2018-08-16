@@ -23,6 +23,12 @@ class Home extends React.Component {
         .then((da)=>{
             //alert(da[0].name);
 
+             
+                if(da.length < 2) {
+                    alert("You don't have any lists!! \nPlease click on the New Lists button");
+                }
+            
+
             var collList = da.map((a)=>{
                 if(a.name != 'system.indexes') {
                 return <div>
@@ -37,17 +43,20 @@ class Home extends React.Component {
     }
 
     getCol(a) {
-        alert(a);
+        if(window.confirm("Delete "+a +"?")){
         fetch('/deletecol/'+a);
         setTimeout(()=>{
             this.colfet();
         },100);
     }
+    }
 
     render() {
     return (
         <div>
-        <div id="collTitle">My Collections</div>
+        <div id="collTitle">My Lists</div>
+        <div id="colIn">-Click on a list to see the items it contains</div>
+        <div id="colIn">-Click on New List to create a new list</div>
         <div id="collLisWrap">
         <div>{this.state.colls}</div>
         </div>

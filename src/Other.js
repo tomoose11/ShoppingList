@@ -13,7 +13,15 @@ class Other extends React.Component {
     }
 
     render() {
-        return <div id="collTitle">Other</div>;
+    return (
+    <div>
+    <div id="collTitle">About</div>
+    <div id="colIn">This app is a simple mock-up that demonstrates the back-end skills I have learnt.
+    I have used an express server to handle client side requests. The server connects to a Mongo database
+    where the client's shopping lists are stored. I have also added some very basic validation.
+    </div>
+    </div>
+    );
     }
 }
 
